@@ -34,4 +34,9 @@ class RemoteRepositoryImpl implements RemoteRepository{
     }
   }
 
+  @override
+  setClient(Client client) {
+    this.client = client;
+  }
+
 }
