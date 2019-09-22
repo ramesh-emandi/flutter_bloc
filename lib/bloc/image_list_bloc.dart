@@ -10,12 +10,20 @@ class ImageListBloc implements BlocBase {
 
   //user future or streams for content delivery
   StreamController _imageListStream;
+  StreamController _textStream;
 
   Stream<Result> get getImageStream => _imageListStream.stream;
+
+  Stream<String> get listenTextChange => _textStream.stream;
+
+  Function(String) get addText => _textStream.sink.add;
+
+
 
   @override
   void init() {
     _imageListStream = StreamController<Result>();
+    _textStream = StreamController<String>.broadcast();
     _repository = RepositoryImpl();
   }
 
@@ -35,5 +43,6 @@ class ImageListBloc implements BlocBase {
   @override
   void dispose() {
     _imageListStream.close();
+    _textStream.close();
   }
 }

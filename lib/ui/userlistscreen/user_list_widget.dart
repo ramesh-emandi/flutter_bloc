@@ -31,30 +31,50 @@ class _UserListWidgetState extends State<UserListWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: StreamBuilder(
-          stream: _bloc.getImageStream,
-          builder:
-              (BuildContext context, AsyncSnapshot<Result> snapshot) {
-            if(snapshot.data is SuccessState) {
-              List<AlbumImage> images = (snapshot.data as SuccessState).msg;
-              return ListView.builder(
-                  itemCount: images.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      elevation: 3.0,
-                      child: ListTile(
-                        title: Text(images[index].title),
-                        leading: Image.network(images[index].thumbnailUrl),
-                      ),
-                    );
-                  });
-            } else if (snapshot.data is ErrorState) {
-              String message = (snapshot.data as ErrorState).msg;
-              return Text(message);
-            } else {
-              return CircularProgressIndicator();
+      child: Column(
+        children: <Widget>[
+          StreamBuilder(
+            stream: _bloc.listenTextChange,
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot){
+            if(snapshot.hasData) {
+              return Text(snapshot.data);
+            }else {
+              return Text("");
             }
+
           }),
+          TextField(
+            decoration: InputDecoration(hintText: "Enter text"),
+            onChanged: (value){
+            _bloc.addText(value);
+            },
+          )
+        ],
+      )
+//      StreamBuilder(
+//          stream: _bloc.getImageStream,
+//          builder:
+//              (BuildContext context, AsyncSnapshot<Result> snapshot) {
+//            if(snapshot.data is SuccessState) {
+//              List<AlbumImage> images = (snapshot.data as SuccessState).msg;
+//              return ListView.builder(
+//                  itemCount: images.length,
+//                  itemBuilder: (BuildContext context, int index) {
+//                    return Card(
+//                      elevation: 3.0,
+//                      child: ListTile(
+//                        title: Text(images[index].title),
+//                        leading: Image.network(images[index].thumbnailUrl),
+//                      ),
+//                    );
+//                  });
+//            } else if (snapshot.data is ErrorState) {
+//              String message = (snapshot.data as ErrorState).msg;
+//              return Text(message);
+//            } else {
+//              return CircularProgressIndicator();
+//            }
+//          }),
     );
   }
 }
