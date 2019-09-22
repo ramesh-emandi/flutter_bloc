@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/repository/modal/album.dart';
+import 'package:flutter_bloc/repository/modal/result.dart';
 import 'package:flutter_bloc/repository/modal/user.dart';
 import 'package:flutter_bloc/repository/remote_repository/remote_repository.dart';
 import 'package:http/http.dart';
@@ -21,14 +22,15 @@ class RemoteRepositoryImpl implements RemoteRepository{
   }
 
   @override
-  Future<List<AlbumImage>> getAlbumImage() async{
+  Future<Result> getAlbumImage() async{
 
     Response resp= await client.get("https://jsonplaceholder.typicode.com/photos");
     if(resp.statusCode == 200) {
-      return albumImageFromJson(resp.body);
+      return Result<List<AlbumImage>>.SuccessState(albumImageFromJson(resp.body));
+//      return albumImageFromJson(resp.body);
     }
     else {
-      return null;
+      return Result<String>.ErrorState("This is error");
     }
   }
 

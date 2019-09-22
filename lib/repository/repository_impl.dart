@@ -6,6 +6,7 @@ import 'package:flutter_bloc/repository/remote_repository/remote_repository.dart
 import 'package:flutter_bloc/repository/remote_repository/remote_repository_impl.dart';
 import 'package:flutter_bloc/repository/repository.dart';
 
+import 'modal/result.dart';
 import 'modal/user.dart';
 
 class RepositoryImpl implements Repository{
@@ -18,7 +19,7 @@ class RepositoryImpl implements Repository{
   }
 
   @override
-  Future<List<AlbumImage>> getAlbumImage() {
+  Future<Result> getAlbumImage() {
     return _remoteRepository.getAlbumImage();
   }
 }
