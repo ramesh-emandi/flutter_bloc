@@ -18,6 +18,7 @@ class _UserListWidgetState extends State<UserListWidget> {
   @override
   void initState() {
     _bloc.init();
+    _bloc.getAlbumImage();
     super.initState();
   }
 
@@ -30,8 +31,8 @@ class _UserListWidgetState extends State<UserListWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FutureBuilder(
-          future: _bloc.getAlbumImage(),
+      child: StreamBuilder(
+          stream: _bloc.getImageStream,
           builder:
               (BuildContext context, AsyncSnapshot<Result> snapshot) {
             if(snapshot.data is SuccessState) {
