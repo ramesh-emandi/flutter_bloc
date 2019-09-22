@@ -14,7 +14,18 @@ class ImageListBloc implements BlocBase {
 
   Stream<Result> get getImageStream => _imageListStream.stream;
 
-  Stream<String> get listenTextChange => _textStream.stream;
+
+
+  StreamTransformer<String, bool> transformer = StreamTransformer<String,
+      bool>.fromHandlers(handleData: (data, sink) {
+    if (data.length == 8) {
+      sink.add(true);
+    } else {
+      sink.add(false);
+    }
+  });
+
+  Stream<bool> get listenTextChange => _textStream.stream.transform(transformer);
 
   Function(String) get addText => _textStream.sink.add;
 
@@ -23,7 +34,7 @@ class ImageListBloc implements BlocBase {
   @override
   void init() {
     _imageListStream = StreamController<Result>();
-    _textStream = StreamController<String>.broadcast();
+    _textStream = StreamController.broadcast();
     _repository = RepositoryImpl();
   }
 

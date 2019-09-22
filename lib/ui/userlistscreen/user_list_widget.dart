@@ -35,9 +35,9 @@ class _UserListWidgetState extends State<UserListWidget> {
         children: <Widget>[
           StreamBuilder(
             stream: _bloc.listenTextChange,
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot){
+              builder: (BuildContext context, AsyncSnapshot<bool> snapshot){
             if(snapshot.hasData) {
-              return Text(snapshot.data);
+              return Text(snapshot.data.toString());
             }else {
               return Text("");
             }
